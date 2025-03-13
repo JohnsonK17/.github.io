@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Sandy!</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: url('DSC08015-4.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .birthday-text {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 36px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: yellow;
+            border-radius: 50%;
+            opacity: 0;
+            animation: explode 1s ease-out;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100px); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="birthday-text" id="birthdayText">Happy Birthday, Sandy!</div>
+    
+    <script>
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.innerHTML = '🌸';
+            petal.style.position = 'absolute';
+            petal.style.left = Math.random() * window.innerWidth + 'px';
+            petal.style.top = '-50px';
+            petal.style.fontSize = Math.random() * 20 + 10 + 'px';
+            petal.style.opacity = Math.random();
+            petal.style.animation = `fall ${Math.random() * 5 + 5}s linear infinite`;
+            document.body.appendChild(petal);
+            setTimeout(() => petal.remove(), 10000);
+        }
+        setInterval(createPetal, 300);
+
+        document.body.addEventListener('click', function(event) {
+            document.getElementById('birthdayText').style.display = 'block';
+            
+            for (let i = 0; i < 20; i++) {
+                let firework = document.createElement('div');
+                firework.classList.add('firework');
+                firework.style.left = event.clientX + 'px';
+                firework.style.top = event.clientY + 'px';
+                firework.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                document.body.appendChild(firework);
+                setTimeout(() => firework.remove(), 1000);
+            }
+        });
+    </script>
+</body>
+</html>
