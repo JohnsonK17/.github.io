@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Sandy!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #000000, #0a1a2d, #142952);
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .skyline {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 20%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200"><path d="M0,200 L0,180 L10,180 L10,150 L20,150 L20,170 L30,170 L30,140 L40,140 L40,160 L50,160 L50,130 L60,130 L60,150 L80,150 L80,120 L100,120 L100,140 L120,140 L120,170 L140,170 L140,130 L160,130 L160,150 L180,150 L180,110 L200,110 L200,160 L220,160 L220,140 L240,140 L240,130 L260,130 L260,150 L280,150 L280,100 L300,100 L300,160 L320,160 L320,130 L340,130 L340,170 L360,170 L360,140 L380,140 L380,150 L400,150 L400,120 L420,120 L420,160 L440,160 L440,150 L460,150 L460,130 L480,130 L480,170 L500,170 L500,140 L520,140 L520,160 L540,160 L540,120 L560,120 L560,150 L580,150 L580,130 L600,130 L600,160 L620,160 L620,140 L640,140 L640,150 L660,150 L660,130 L680,130 L680,170 L700,170 L700,160 L720,160 L720,130 L740,130 L740,160 L760,160 L760,140 L780,140 L780,160 L800,160 L800,120 L820,120 L820,150 L840,150 L840,130 L860,130 L860,160 L880,160 L880,140 L900,140 L900,150 L920,150 L920,120 L940,120 L940,160 L960,160 L960,170 L980,170 L980,140 L1000,140 L1000,200 Z" fill="%23000000" /></svg>');
+            background-repeat: repeat-x;
+            background-size: contain;
+        }
+        
+        .moon {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #fffce8;
+            box-shadow: 0 0 40px 15px rgba(255, 252, 232, 0.4);
+            top: 60px;
+            right: 80px;
+        }
+        
+        .moon::before {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background-color: #0a1a2d;
+            top: -10px;
+            left: 25px;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 1s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+        
+        .hidden-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            text-align: center;
+            z-index: 100;
+        }
+        
+        .visible {
+            opacity: 1;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .firework-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+        }
+        
+        .tap-instruction {
+            position: absolute;
+            bottom: 40px;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.6);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+        
+        .reflection {
+            position: absolute;
+            bottom: 0;
+            width: 5px;
+            height: 20px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
+            animation: reflection 3s infinite linear;
+        }
+        
+        @keyframes reflection {
+            0% { opacity: 0.1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 0.1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="moon"></div>
+    <div class="skyline"></div>
+    <div class="hidden-message">Happy Birthday,<br>Sandy!</div>
+    <div class="tap-instruction">點擊螢幕放煙火...</div>
+    
+    <script>
+        // 創建星星
+        function createStars() {
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // 隨機位置
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight * 0.7; // 只在上方70%的區域
+                
+                star.style.left = `${x}px`;
+                star.style.top = `${y}px`;
+                
+                // 隨機大小
+                const size = Math.random() * 3;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // 隨機動畫延遲
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                
+                document.body.appendChild(star);
+            }
+        }
+        
+        // 創建倒影
+        function createReflections() {
+            for (let i = 0; i < 50; i++) {
+                const reflection = document.createElement('div');
+                reflection.classList.add('reflection');
+                
+                const x = Math.random() * window.innerWidth;
+                const height = 5 + Math.random() * 15;
+                
+                reflection.style.left = `${x}px`;
+                reflection.style.height = `${height}px`;
+                reflection.style.animationDelay = `${Math.random() * 3}s`;
+                
+                document.body.appendChild(reflection);
+            }
+        }
+        
+        // 創建煙火
+        function createFirework(x, y) {
+            const colors = [
+                '#ff0000', '#ff7700', '#ffff00', '#00ff00', 
+                '#00ffff', '#0077ff', '#ff00ff', '#ff007f'
+            ];
+            
+            const firework = document.createElement('div');
+            firework.classList.add('firework');
+            firework.style.left = `${x}px`;
+            firework.style.top = `${y}px`;
+            document.body.appendChild(firework);
+            
+            // 煙火爆炸
+            setTimeout(() => {
+                // 顯示煙火爆炸
+                const particleCount = 60 + Math.round(Math.random() * 40);
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('firework-particle');
+                    
+                    // 設置顏色和大小
+                    particle.style.backgroundColor = color;
+                    const size = 1 + Math.random() * 3;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    
+                    // 初始位置
+                    particle.style.left = `${x}px`;
+                    particle.style.top = `${y}px`;
+                    
+                    // 隨機方向和速度
+                    const angle = Math.random() * Math.PI * 2;
+                    const velocity = 2 + Math.random() * 3;
+                    const vx = Math.cos(angle) * velocity;
+                    const vy = Math.sin(angle) * velocity;
+                    
+                    document.body.appendChild(particle);
+                    
+                    // 設置動畫
+                    let posX = x;
+                    let posY = y;
+                    let opacity = 1;
+                    let gravity = 0.06;
+                    
+                    const animate = () => {
+                        posX += vx;
+                        posY += vy;
+                        vy += gravity;
+                        opacity -= 0.01;
+                        
+                        particle.style.left = `${posX}px`;
+                        particle.style.top = `${posY}px`;
+                        particle.style.opacity = opacity;
+                        
+                        if (opacity > 0) {
+                            requestAnimationFrame(animate);
+                        } else {
+                            particle.remove();
+                        }
+                    };
+                    
+                    requestAnimationFrame(animate);
+                }
+                
+                firework.remove();
+            }, 10);
+        }
+        
+        // 顯示生日祝福
+        function showBirthdayMessage() {
+            const message = document.querySelector('.hidden-message');
+            message.classList.add('visible');
+            
+            // 3秒後隱藏消息
+            setTimeout(() => {
+                message.classList.remove('visible');
+            }, 3000);
+        }
+        
+        // 點擊事件處理
+        document.addEventListener('click', (e) => {
+            // 創建煙火
+            createFirework(e.clientX, e.clientY);
+            
+            // 顯示生日祝福
+            showBirthdayMessage();
+        });
+        
+        // 頁面載入時創建星星和倒影
+        window.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            createReflections();
+            
+            // 自動創建一些煙火
+            setInterval(() => {
+                const x = Math.random() * window.innerWidth;
+                const y = 100 + Math.random() * (window.innerHeight / 2);
+                createFirework(x, y);
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
